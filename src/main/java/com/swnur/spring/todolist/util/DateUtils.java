@@ -5,6 +5,8 @@ import com.swnur.spring.todolist.model.PublicHoliday;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DateUtils {
 
@@ -14,11 +16,16 @@ public class DateUtils {
         return list.stream().anyMatch(publicHoliday -> publicHoliday.getDate().isEqual(creationDate));
     }
 
-    public static LocalDate findClosestAvailableDate(LocalDate creationDate, List<PublicHoliday> list) {
-        return list.stream()
-                .filter(publicHoliday -> publicHoliday.getDate().isEqual(creationDate))
-                .findFirst()
-                .map(publicHoliday -> list.get(list.indexOf(publicHoliday) + 1).getDate())
-                .orElseThrow(() -> new NotFoundException("No available date found after the given creation date."));
+    public static LocalDate findClosestAvailableDate(LocalDate creationDate, List<PublicHoliday> holidays) {
+        Set<LocalDate> holidayDates = holidays.stream()
+                .map(PublicHoliday::getDate)
+                .collect(Collectors.toSet());
+
+        LocalDate availableDate = creationDate;
+        while (holidayDates.contains(availableDate)) {
+            availableDate = availableDate.plusDays(1);
+        }
+
+        return availableDate;
     }
 }
