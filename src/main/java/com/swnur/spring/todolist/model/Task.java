@@ -15,6 +15,6 @@ public class Task {
     private String description;
     private LocalDate creationDate;
     private LocalDate dueDate;
-    private boolean isFinished;
+    private TaskStatus taskStatus;
 
 }

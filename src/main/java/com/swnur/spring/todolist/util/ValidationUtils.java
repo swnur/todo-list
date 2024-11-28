@@ -1,29 +1,27 @@
 package com.swnur.spring.todolist.util;
 
-
-import com.swnur.spring.todolist.exception.InvalidParameterException;
+import com.swnur.spring.todolist.exception.ValidationException;
 import com.swnur.spring.todolist.model.Task;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
-import java.time.LocalDate;
+import java.util.Objects;
 
 public class ValidationUtils {
 
-    public static void validateTask(Task task) {
-        validateString(task.getHeadline());
-        validateString(task.getDescription());
-        validateLocalDate(task.getCreationDate());
-        validateLocalDate(task.getDueDate());
+    private ValidationUtils() {}
+
+    public static void validateTaskNotEmpty(Task task) {
+        if (Objects.isNull(task))
+            throw new ValidationException("'task' is empty");
+        if (!StringUtils.hasText(task.getHeadline()))
+            throw new ValidationException("'headline' parameter can not be null");
+        if (!StringUtils.hasText(task.getDescription()))
+            throw new ValidationException("'description' parameter can not be null");
+        if (Objects.isNull(task.getCreationDate()))
+            throw new ValidationException("'creationDate' parameter can not be null");
+        if (Objects.isNull(task.getDueDate()))
+            throw new ValidationException("'dueDate' parameter can not be null");
     }
 
-    private static void validateString(String value) {
-        if (value == null || value.isEmpty()) {
-            throw new InvalidParameterException("String parameter can not be null or empty");
-        }
-    }
-
-    private static void validateLocalDate(LocalDate localDate) {
-        if (localDate == null) {
-            throw new InvalidParameterException("LocalDate parameter can not be null");
-        }
-    }
 }

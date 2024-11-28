@@ -2,6 +2,7 @@ package com.swnur.spring.todolist.repository;
 
 import com.swnur.spring.todolist.exception.NotFoundException;
 import com.swnur.spring.todolist.model.Task;
+import com.swnur.spring.todolist.model.TaskStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -33,14 +34,14 @@ public class LocalMapTaskRepository implements TaskRepository {
     }
 
     @Override
-    public List<Task> getAllTasksFilteredByFinished(Boolean isFinished) {
+    public List<Task> getAllTasksFilteredByTaskStatus(TaskStatus taskStatus) {
         return data.values().stream()
-                .filter(task -> task.isFinished() == isFinished)
+                .filter(task -> task.getTaskStatus() == taskStatus)
                 .toList();
     }
 
     @Override
-    public Optional<Task> updateTask(Integer id, String headline, String description, Boolean isFinished) {
+    public Optional<Task> updateTask(Integer id, String headline, String description, TaskStatus taskStatus) {
         if (!data.containsKey(id)) {
             throw new NotFoundException("No such task exists with id: " + id);
         }
@@ -52,8 +53,8 @@ public class LocalMapTaskRepository implements TaskRepository {
         if (description != null) {
             task.setDescription(description);
         }
-        if (isFinished != null) {
-            task.setFinished(isFinished);
+        if (taskStatus != null) {
+            task.setTaskStatus(taskStatus);
         }
 
         data.put(id, task);
