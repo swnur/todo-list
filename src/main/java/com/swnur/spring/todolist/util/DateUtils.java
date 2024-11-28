@@ -1,5 +1,6 @@
 package com.swnur.spring.todolist.util;
 
+import com.swnur.spring.todolist.exception.NotFoundException;
 import com.swnur.spring.todolist.model.PublicHoliday;
 
 import java.time.LocalDate;
@@ -18,6 +19,6 @@ public class DateUtils {
                 .filter(publicHoliday -> publicHoliday.getDate().isEqual(creationDate))
                 .findFirst()
                 .map(publicHoliday -> list.get(list.indexOf(publicHoliday) + 1).getDate())
-                .orElseThrow(() -> new IllegalStateException("No available date found after the given creation date."));
+                .orElseThrow(() -> new NotFoundException("No available date found after the given creation date."));
     }
 }
