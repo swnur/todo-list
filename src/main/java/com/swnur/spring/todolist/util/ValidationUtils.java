@@ -2,7 +2,6 @@ package com.swnur.spring.todolist.util;
 
 import com.swnur.spring.todolist.exception.ValidationException;
 import com.swnur.spring.todolist.model.Task;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Objects;

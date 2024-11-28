@@ -1,5 +1,6 @@
 package com.swnur.spring.todolist.controller.advice;
 
+import com.swnur.spring.todolist.exception.IllegalTaskCreationDateException;
 import com.swnur.spring.todolist.exception.ValidationException;
 import com.swnur.spring.todolist.exception.NotFoundException;
 import com.swnur.spring.todolist.model.ErrorDetails;
@@ -22,6 +23,15 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ErrorDetails> exceptionInvalidParameterHandler(ValidationException e) {
+        ErrorDetails errorDetails = new ErrorDetails();
+        errorDetails.setMessage(e.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorDetails);
+    }
+
+    @ExceptionHandler(IllegalTaskCreationDateException.class)
+    public ResponseEntity<ErrorDetails> exceptionIllegalTaskCreateDateHandler(IllegalTaskCreationDateException e) {
         ErrorDetails errorDetails = new ErrorDetails();
         errorDetails.setMessage(e.getMessage());
         return ResponseEntity
