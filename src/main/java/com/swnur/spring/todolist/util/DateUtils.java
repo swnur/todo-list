@@ -11,7 +11,7 @@ public class DateUtils {
     private DateUtils() {}
 
     public static boolean isTaskCreationDateHoliday(LocalDate creationDate, List<PublicHoliday> list) {
-        return list.stream().anyMatch(publicHoliday -> publicHoliday.getDate() == creationDate);
+        return list.stream().anyMatch(publicHoliday -> publicHoliday.getDate().isEqual(creationDate));
     }
 
     public static LocalDate findClosestAvailableDate(LocalDate creationDate, List<PublicHoliday> list) {
