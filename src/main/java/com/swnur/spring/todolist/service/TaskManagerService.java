@@ -37,12 +37,13 @@ public class TaskManagerService {
             LocalDate newDate = findClosestAvailableDate(task.getCreationDate(), list);
             throw new IllegalTaskCreationDateException("Choose another date - closest available date is " + newDate);
         }
-        taskRepository.createTask(task);
+        taskRepository.addTask(task);
     }
 
     public Task updateTask(Integer id, String headline, String description, TaskStatus taskStatus) {
-        return taskRepository.updateTask(id, headline, description, taskStatus)
-                .orElseThrow(() -> new NotFoundException("could not update the task"));
+        return taskRepository.updateTask(id, headline, description, taskStatus).orElseThrow(
+                () -> new NotFoundException("Could not get the task with id: " + id)
+        );
     }
 
     public void deleteTask(Integer id) {

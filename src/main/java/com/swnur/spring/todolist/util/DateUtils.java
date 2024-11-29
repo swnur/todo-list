@@ -1,6 +1,5 @@
 package com.swnur.spring.todolist.util;
 
-import com.swnur.spring.todolist.exception.NotFoundException;
 import com.swnur.spring.todolist.model.PublicHoliday;
 
 import java.time.LocalDate;

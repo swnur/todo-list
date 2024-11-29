@@ -22,7 +22,7 @@ public class LocalMapTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void createTask(Task task) {
+    public void addTask(Task task) {
         Integer currentTaskId = id++;
 
         data.put(currentTaskId, task);

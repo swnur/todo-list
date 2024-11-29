@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface TaskRepository {
 
-    void createTask(Task task);
+    void addTask(Task task);
 
     List<Task> getAllTasks();
 
