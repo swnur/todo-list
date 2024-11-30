@@ -1,6 +1,6 @@
 package com.swnur.spring.todolist.service;
 
-import com.swnur.spring.todolist.exception.NotFoundException;
+import com.swnur.spring.todolist.exception.TaskNotFoundException;
 import com.swnur.spring.todolist.model.PublicHoliday;
 import com.swnur.spring.todolist.model.Task;
 import com.swnur.spring.todolist.model.TaskStatus;
@@ -24,29 +24,29 @@ public class TaskManagerService {
     private final PublicHolidayProxy publicHolidayProxy;
 
     public List<Task> findAll(TaskStatus taskStatus) {
-        return taskStatus == null ? taskRepository.getAllTasks() :
-                taskRepository.getAllTasksFilteredByTaskStatus(taskStatus);
+        return taskStatus == null ? (List<Task>) taskRepository.findAll() :
+                taskRepository.findTasksByTaskStatus(taskStatus);
     }
 
     public void createTask(Task task) {
         ValidationUtils.validateTaskNotEmpty(task);
         final Integer YEAR = 2024;
         final String LOCATION = "PL";
-        List<PublicHoliday> list = publicHolidayProxy.getHolidays(YEAR, LOCATION);
+        List<PublicHoliday> list = publicHolidayProxy.findHolidays(YEAR, LOCATION);
         if (isTaskCreationDateHoliday(task.getCreationDate(), list)) {
             LocalDate newDate = findClosestAvailableDate(task.getCreationDate(), list);
             throw new IllegalTaskCreationDateException("Choose another date - closest available date is " + newDate);
         }
-        taskRepository.addTask(task);
+        taskRepository.save(task);
     }
 
-    public Task updateTask(Integer id, String headline, String description, TaskStatus taskStatus) {
-        return taskRepository.updateTask(id, headline, description, taskStatus).orElseThrow(
-                () -> new NotFoundException("Could not get the task with id: " + id)
+    public Task updateTask(Long id, String headline, String description, TaskStatus taskStatus) {
+        return taskRepository.updateTaskBy(id, headline, description, taskStatus).orElseThrow(
+                () -> new TaskNotFoundException("Could not get the task with id: " + id)
         );
     }
 
-    public void deleteTask(Integer id) {
-        taskRepository.deleteTask(id);
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
     }
 }

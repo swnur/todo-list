@@ -11,7 +11,7 @@ import java.util.List;
 public interface PublicHolidayProxy {
 
     @GetMapping("/{year}/{countryCode}")
-    List<PublicHoliday> getHolidays(
+    List<PublicHoliday> findHolidays(
             @PathVariable Integer year,
             @PathVariable String countryCode);
 }

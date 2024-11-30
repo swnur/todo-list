@@ -35,7 +35,7 @@ public class TaskController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Task> updateTask(
-            @PathVariable("id") Integer id,
+            @PathVariable("id") Long id,
             @RequestParam(required = false) String headline,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) TaskStatus taskStatus) {
@@ -46,7 +46,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable("id") Integer id) {
+    public ResponseEntity<String> deleteTask(@PathVariable("id") Long id) {
         taskManagerService.deleteTask(id);
         return ResponseEntity
                 .ok()
