@@ -36,9 +36,9 @@ public class TaskController {
     @PatchMapping("/{id}")
     public ResponseEntity<Task> updateTask(
             @PathVariable("id") Long id,
-            @RequestParam(required = false) String headline,
-            @RequestParam(required = false) String description,
-            @RequestParam(required = false) TaskStatus taskStatus) {
+            @RequestParam String headline,
+            @RequestParam String description,
+            @RequestParam TaskStatus taskStatus) {
         Task task = taskManagerService.updateTask(id, headline, description, taskStatus);
         return ResponseEntity
                 .status(HttpStatus.OK)

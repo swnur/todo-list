@@ -1,5 +1,6 @@
 package com.swnur.spring.todolist.service;
 
+import com.swnur.spring.todolist.exception.DBOperationException;
 import com.swnur.spring.todolist.exception.TaskNotFoundException;
 import com.swnur.spring.todolist.model.PublicHoliday;
 import com.swnur.spring.todolist.model.Task;
@@ -41,9 +42,13 @@ public class TaskManagerService {
     }
 
     public Task updateTask(Long id, String headline, String description, TaskStatus taskStatus) {
-        return taskRepository.updateTaskBy(id, headline, description, taskStatus).orElseThrow(
-                () -> new TaskNotFoundException("Could not get the task with id: " + id)
-        );
+        int rowsAffected = taskRepository.updateTaskBy(id, headline, description, taskStatus);
+        if (rowsAffected == 1) {
+            return taskRepository.findById(id)
+                    .orElseThrow(() -> new TaskNotFoundException("Could not find the task with id: " + id));
+        } else {
+            throw new DBOperationException("Failed to update the task");
+        }
     }
 
     public void deleteTask(Long id) {

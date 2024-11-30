@@ -7,7 +7,6 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TaskRepository extends CrudRepository<Task, Long> {
 
@@ -15,8 +14,8 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
     List<Task> findTasksByTaskStatus(TaskStatus taskStatus);
 
     @Modifying
-    @Query("UPDATE task SET headline = :headline, description = :description, taskStatus = :taskStatus WHERE id = :id")
-    Optional<Task> updateTaskBy(Long id,
+    @Query("UPDATE task SET headline = :headline, description = :description, task_status = :taskStatus WHERE id = :id")
+    int updateTaskBy(Long id,
                         String headline,
                         String description,
                         TaskStatus taskStatus);
